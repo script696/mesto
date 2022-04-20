@@ -1,0 +1,9 @@
+.profile-info__add-button{
+  width: 100%;
+  min-height: 50px;
+  border: 2px solid #fff;
+  background: url("../../../img/logo/plus.svg") center / 20% no-repeat;
+}
+.profile-info__add-button:hover{
+  opacity: .6;
+}

@@ -1,4 +1,8 @@
-.page {
+*{
+  box-sizing: border-box;
+}
+
+.page{
   max-width: 918px;
   min-width: 320px;
   min-height: 100vh;
