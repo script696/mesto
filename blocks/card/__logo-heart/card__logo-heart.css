@@ -2,3 +2,6 @@
   width: 22px;
   height: 19px;
 }
+.card__logo-heart:hover{
+  opacity: .6;
+}

@@ -1,23 +1,25 @@
-.input__text {
+.form__text {
   width: 100%;
   height: 27px;
+  border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   font-size: 14px;
   line-height: 17px;
-  color: red;
+  color: #000;
 }
 
-.input__text::placeholder {
+.form__text::placeholder {
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
   color: #000;
 }
 
-.input__text:not(:last-child) {
+.form__text:not(:last-child) {
   margin-bottom: 30px;
 }
 
-.input__text:last-child {
+.form__text:last-child {
   margin-bottom: 30px;
 }
+

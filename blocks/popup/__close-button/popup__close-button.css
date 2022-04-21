@@ -1,4 +1,5 @@
-.popup__close-button{
+.popup__close-button {
+  border: none;
   width: 32px;
   height: 32px;
   background: url("../../../img/logo/plus.svg") center / cover no-repeat;
@@ -9,6 +10,14 @@
   transform: rotate(45deg);
   cursor: pointer;
 }
-.popup__close-button:hover{
+
+.popup__close-button:hover {
   opacity: .6;
+}
+
+@media screen and (max-width: 714px) {
+  .popup__close-button {
+    width: 20px;
+    height: 20px;
+  }
 }

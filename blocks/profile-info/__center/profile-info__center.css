@@ -4,3 +4,8 @@
   justify-content: center;
   gap: 16px 0;
 }
+@media screen and (max-width: 714px) {
+  .profile-info__center {
+    margin-bottom: 37px;
+  }
+}
