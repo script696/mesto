@@ -10,8 +10,8 @@ const formSubmit = formElement.querySelector('.form__button');
 const popup = document.querySelector('.popup');
 const popupBody = popup.querySelector('.popup__body');
 const closePopupButton = popup.querySelector('.popup__close-button');
-//Элементы DOM card
-const logoHeart = document.querySelectorAll('.card__logo-heart');
+//Элементы DOM cards
+const cardsElement = document.querySelector('.cards');
 
 //Запись в поля формы дефолтных значений
 inputElements[0].value = `${profileName.textContent}`;
@@ -25,13 +25,17 @@ closePopupButton.addEventListener('click', popupSwitch);
 formElement.addEventListener('submit', formSubmitHandler);
 
 //Слушатели кнопки лайков (сердечко), заливка иконки цветом
-logoHeart.addEventListener('click', () => logoHeart.classList.toggle('card__logo-heart_style_filled'))
+cardsElement.addEventListener('click', (e) => {
+  if (e.target.classList.contains('card__path')) {
+    e.target.parentElement.classList.toggle('card__logo-heart_style_filled');
+  }
+});
 
 //Задание плейсхолдера полей ввода в дефолтное значение
 placeholderReset()
 
 //Функция задания/сброса плейсхолдера полей ввода в дефолтное значение
-function placeholderReset(){
+function placeholderReset() {
   inputElements[0].placeholder = 'Имя';
   inputElements[1].placeholder = 'О себе';
 }
