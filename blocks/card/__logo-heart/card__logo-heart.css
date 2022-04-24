@@ -1,8 +1,9 @@
-.card__logo-heart{
-  width: 22px;
+.card__logo-heart {
+  flex: 0 0 22px;
   height: 19px;
   cursor: pointer;
 }
-.card__logo-heart:hover{
+
+.card__logo-heart:hover {
   opacity: .6;
 }
