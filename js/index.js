@@ -26,8 +26,8 @@ formElement.addEventListener('submit', formSubmitHandler);
 
 //Слушатели кнопки лайков (сердечко), заливка иконки цветом
 cardsElement.addEventListener('click', (e) => {
-  if (e.target.classList.contains('card__path')) {
-    e.target.parentElement.classList.toggle('card__logo-heart_style_filled');
+  if (e.target.classList.contains('card__logo-heart')) {
+    e.target.classList.toggle('card__logo-heart_style_filled');
   }
 });
 
