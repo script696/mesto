@@ -1,6 +1,7 @@
 .form__text {
   width: 100%;
-  height: 27px;
+  padding: 0 0 13px 0;
+  margin-bottom: 30px;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   font-size: 14px;
@@ -15,11 +16,5 @@
   color: #000;
 }
 
-.form__text:not(:last-child) {
-  margin-bottom: 30px;
-}
 
-.form__text:last-child {
-  margin-bottom: 30px;
-}
 

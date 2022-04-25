@@ -1,8 +1,10 @@
 .profile-info {
+  box-sizing: border-box;
   padding: 47px 0 67px 0;
   display: grid;
   grid-template-columns: 120px 1fr 150px;
   gap: 0 30px;
+  align-items: center;
 }
 
 @media screen and (max-width: 714px) {

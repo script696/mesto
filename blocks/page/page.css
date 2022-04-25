@@ -1,14 +1,11 @@
-*{
+.page {
   box-sizing: border-box;
-}
-
-.page{
   max-width: 918px;
   min-width: 320px;
   min-height: 100vh;
   margin: auto;
   padding: 45px 19px 60px 19px;
-  font-family: "Inter";
+  font-family: "Inter", "Arial", sans-serif;
   font-weight: 400;
   color: #fff;
   background: #000;

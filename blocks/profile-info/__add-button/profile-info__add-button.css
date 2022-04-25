@@ -3,6 +3,7 @@
   min-height: 50px;
   border: 2px solid #fff;
   background: url("../../../img/logo/plus.svg") center / 22px no-repeat;
+  cursor: pointer;
 }
 .profile-info__add-button:hover{
   opacity: .6;
