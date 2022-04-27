@@ -1,4 +1,6 @@
 .cards {
+  box-sizing: border-box;
+  padding: 0 19px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px 17px;
@@ -6,6 +8,6 @@
 
 @media screen and (max-width: 714px) {
   .cards {
-    gap: 17px;
+    gap: 20px;
   }
 }

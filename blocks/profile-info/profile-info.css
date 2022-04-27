@@ -1,6 +1,6 @@
 .profile-info {
   box-sizing: border-box;
-  padding: 47px 0 67px 0;
+  padding: 40px 19px 50px 19px;
   display: grid;
   grid-template-columns: 120px 1fr 150px;
   gap: 0 30px;
@@ -9,6 +9,7 @@
 
 @media screen and (max-width: 714px) {
   .profile-info {
+    padding: 40px 19px 36px 19px;
     grid-template-columns: 1fr;
     justify-items: center;
   }
