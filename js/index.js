@@ -19,22 +19,19 @@ const popup = document.querySelector('.popup');
 const closePopupButton = popup.querySelector('.popup__close-button');
 
 /** 
- * @description Присвоение свойсву value элемента elemValue текстового поля элемента elemText
- * @param {object} elemValue - Элемент DOM
- * @param {object} elemText - Элемент DOM
-*/
-const setValue = (elemValue, elemText) => {
-  elemValue.value = `${elemText.textContent}`;
+ * @description Открытие попап, добавление текстовых значений полей элементов profileName/profileAbout  
+ * в свойства value элементов inputName/inputAbout
+ */
+const popupOpen = () => {
+  inputName.value = profileName.textContent;
+  inputAbout.value = profileAbout.textContent;
+  popup.classList.add('popup_opend');
 }
 
 /** 
- * @description Добавление/удаление класса элемента DOM
- * @param {object} elem - Элемент DOM
- * @param {string} name - Название класса
-*/
-const toogleClass = (elem, name) => {
-  elem.classList.toggle(name);
-}
+ * @description Закрытие попап
+ */
+ const popupClose = () => popup.classList.remove('popup_opend');
 
 /** 
  * @description Запись значений полей в форму, закрытие попапа
@@ -44,24 +41,18 @@ const formSubmit = (e) => {
   e.preventDefault();
   profileName.textContent = inputName.value;
   profileAbout.textContent = inputAbout.value;
-  toogleClass(popup, 'popup_opend')
+  popupClose()
 }
 
 /** 
  * @description Слушатель кнопки editProfileButton - открытие попапа 
  */
-editProfileButton.addEventListener('click', () => {
-  setValue(inputName, profileName);
-  setValue(inputAbout, profileAbout);
-  toogleClass(popup, 'popup_opend');
-});
+editProfileButton.addEventListener('click', popupOpen);
 
 /** 
  * @description Слушатель кнопки closePopupButton - закрытие попапа 
  */
-closePopupButton.addEventListener('click', () => {
-  toogleClass(popup, 'popup_opend')
-});
+closePopupButton.addEventListener('click', popupClose);
 
 /**  
  * @description Слушатели формы formElement 
