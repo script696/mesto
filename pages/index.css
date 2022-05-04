@@ -16,6 +16,7 @@
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/form/form.css);
+@import url(../blocks/figure/figure.css);
 
 
 
@@ -35,21 +36,22 @@
 @import url(../blocks/card/__logo-heart/card__logo-heart.css);
 @import url(../blocks/card/__bottom/card__bottom.css);
 @import url(../blocks/card/__place-name/card__place-name.css);
+@import url(../blocks/card/__garbage/card__garbage.css);
 @import url(../blocks/footer/__content/footer__content.css);
 @import url(../blocks/popup/__body/popup__body.css);
 @import url(../blocks/popup/__title/popup__title.css);
 @import url(../blocks/popup/__close-button/popup__close-button.css);
 @import url(../blocks/form/__text/form__text.css);
 @import url(../blocks/form/__button/form__button.css);
+@import url(../blocks/figure/__img/figure__img.css);
+@import url(../blocks/figure/__name/figure__name.css);
 
 
 /* Modificators
 -------------------------------------------------------------------- */
-@import url(../blocks/form/__text/_type/form__text_type_name.css);
-@import url(../blocks/form/__text/_type/form__text_type_about.css);
-@import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/card/__logo-heart/_style/card__logo-heart_style_filled.css);
-
+@import url(../blocks/popup/_opened/popup_opened.css);
+@import url(../blocks/popup/__body/_target/popup__body_target_card-fullscreen.css);
 
 
 

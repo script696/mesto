@@ -18,74 +18,64 @@
       <img src="./img/avatar/avatar.jpg" alt="Аватар" class="profile-info__img">
       <div class="profile-info__center">
         <div class="profile-info__row">
-          <h1 class="profile-info__name">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, temporibus!</h1>
+          <h1 class="profile-info__name">Никита</h1>
           <button type="button" aria-label="Edit" class="profile-info__edit-button"></button>
         </div>
-        <p class="profile-info__about">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt, accusantium.</p>
+        <p class="profile-info__about">А не приготовить ли мне что-нибуть</p>
       </div>
       <button type="button" aria-label="Add" class="profile-info__add-button"></button>
     </section>
     <section class="cards">
-      <article class="cards__card card">
-        <img src="./img/card/abkhazia.jpg" alt="Абхазия" class="card__img">
-        <div class="card__bottom">
-          <h2 class="card__place-name">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate,
-            perspiciatis.
-          </h2>
-          <button type="button" aria-label="Like" class="card__logo-heart"></button>
-        </div>
-      </article>
-      <article class="cards__card card">
-        <img src="./img/card/thailand.jpg" alt="Таиланд" class="card__img">
-        <div class="card__bottom">
-          <h2 class="card__place-name">Таиланд</h2>
-          <button type="button" aria-label="Like" class="card__logo-heart"></button>
-        </div>
-      </article>
-      <article class="cards__card card">
-        <img src="./img/card/kapadokia.jpg" alt="Кападокия" class="card__img">
-        <div class="card__bottom">
-          <h2 class="card__place-name">Кападокия</h2>
-          <button type="button" aria-label="Like" class="card__logo-heart"></button>
-        </div>
-      </article>
-      <article class="cards__card card">
-        <img src="./img/card/stambul.jpg" alt="Стамбул" class="card__img">
-        <div class="card__bottom">
-          <h2 class="card__place-name">Стамбул</h2>
-          <button type="button" aria-label="Like" class="card__logo-heart"></button>
-        </div>
-      </article>
-      <article class="cards__card card">
-        <img src="./img/card/philipine.jpg" alt="Филиппины" class="card__img">
-        <div class="card__bottom">
-          <h2 class="card__place-name">Филиппины</h2>
-          <button type="button" aria-label="Like" class="card__logo-heart"></button>
-        </div>
-      </article>
-      <article class="cards__card card">
-        <img src="./img/card/vietnam.jpg" alt="Вьетнам" class="card__img">
-        <div class="card__bottom">
-          <h2 class="card__place-name">Вьетнам</h2>
-          <button type="button" aria-label="Like" class="card__logo-heart"></button>
-        </div>
-      </article>
     </section>
-    <div class="popup">
+    <div class="popup popup_target_edit-profile">
       <div class="popup__body">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="form" name="profile-edit">
-          <input required type="text" placeholder="Имя" class="form__text form__text_type_name" name="form__text_type_name">
-          <input required type="text" placeholder="О себе" class="form__text form__text_type_about" name="form__text_type_about">
+        <form class="form form_target_profile" name="profile-edit">
+          <input required type="text" placeholder="Имя" class="form__text form__text_position_top"
+            name="form__text_type_name">
+          <input required type="text" placeholder="О себе" class="form__text form__text_position_bottom"
+            name="form__text_type_about">
           <button type="submit" class="form__button">Сохранить</button>
         </form>
         <button type="button" class="popup__close-button"></button>
       </div>
     </div>
+    <div class="popup popup_target_add-card">
+      <div class="popup__body">
+        <h2 class="popup__title">Новое место</h2>
+        <form class="form form_target_cards" name="profile-edit">
+          <input required type="text" placeholder="Название" class="form__text form__text_position_top"
+            name="form__text_type_name">
+          <input required type="text" placeholder="Ссылка на картинку" class="form__text form__text_position_bottom"
+            name="form__text_type_about">
+          <button type="submit" class="form__button">Создать</button>
+        </form>
+        <button type="button" class="popup__close-button"></button>
+      </div>
+    </div>
+    <div class="popup popup_target_card-fullscreen">
+      <div class="popup__body popup__body_target_card-fullscreen">
+        <figure class="popup__figure figure">
+          <img src="" alt="" class="figure__img">
+          <figcaption class="figure__name"></figcaption>
+        </figure>
+        <button type="button" class="popup__close-button"></button>
+      </div>>
+    </div>
   </main>
   <footer class="footer">
     <p class="footer__content">© 2020 Mesto Russia</p>
   </footer>
+  <template id="card">
+    <article class="card">
+      <img src="./img/card/vietnam.jpg" alt="" class="card__img">
+      <div class="card__bottom">
+        <h2 class="card__place-name">Вьетнам</h2>
+        <button type="button" aria-label="Like" class="card__logo-heart"></button>
+      </div>
+      <button type="button" class="card__garbage"></button>
+    </article>
+  </template>
   <script src="./js/index.js"></script>
 </body>
 
