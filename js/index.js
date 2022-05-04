@@ -29,28 +29,28 @@ const cardTemplate = document.querySelector('#card').content;
 
 const initialCards = [
   {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    name: 'США',
+    link: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=422&q=80'
   },
   {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    name: 'Италия',
+    link: 'https://images.unsplash.com/photo-1611270629569-8b357cb88da9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
   },
   {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    name: 'Мексика',
+    link: 'https://images.unsplash.com/photo-1606350383072-4b031d6bd834?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
   },
   {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    name: 'Япония',
+    link: 'https://images.unsplash.com/photo-1580821082847-c53037ecfe0a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
   },
   {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    name: 'Таиланд',
+    link: 'https://images.unsplash.com/photo-1618449840665-9ed506d73a34?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
   },
   {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    name: 'Индия',
+    link: 'https://images.unsplash.com/photo-1596797038530-2c107229654b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80'
   }
 ];
 
@@ -68,8 +68,6 @@ const createCard = (cardLink, cardName) => {
   cardElement.querySelector('.card__place-name').textContent = cardName;
   return cardElement
 }
-
-
 
 /** 
  * @description Открытие попап, добавление текстовых значений полей элементов profileName/profileAbout  
@@ -120,7 +118,7 @@ const popupFullscreenOpen = (e) => {
  * @param {object} e - Событие
 */
 const cardRemove = (e) => {
-    let parentElem = e.target.closest('.card')
+    const parentElem = e.target.closest('.card')
     parentElem.remove()
 }
 

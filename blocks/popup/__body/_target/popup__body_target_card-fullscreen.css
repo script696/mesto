@@ -4,3 +4,15 @@
   border-radius: 0;
   background: transparent;
 }
+
+@media screen and (max-width: 918px) {
+  .popup__body_target_card-fullscreen {
+    width: 433px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .popup__body_target_card-fullscreen {
+    width: 240px;
+  }
+}
+
