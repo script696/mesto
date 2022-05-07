@@ -8,52 +8,24 @@ const formProfileElement = document.querySelector('.form_target_profile');
 const inputProfileName = formProfileElement.querySelector('.form__text_position_top');
 const inputProfileAbout = formProfileElement.querySelector('.form__text_position_bottom');
 
-const formCardsElement = document.querySelector('.form_target_cards');
-const inputCardsName = formCardsElement.querySelector('.form__text_position_top');
-const inputCardsLink = formCardsElement.querySelector('.form__text_position_bottom');
+const formAddCardElement = document.querySelector('.form_target_cards');
+const inputCardName = formAddCardElement.querySelector('.form__text_position_top');
+const inputCardLink = formAddCardElement.querySelector('.form__text_position_bottom');
 
 const popupProfile = document.querySelector('.popup_target_edit-profile');
 const profileCloseButton = popupProfile.querySelector('.popup__close-button');
 const popupProfileBody = popupProfile.querySelector('.popup__body');
 
-const popupCards = document.querySelector('.popup_target_add-card');
-const cardsCloseButton = popupCards.querySelector('.popup__close-button');
+const popupAddCard = document.querySelector('.popup_target_add-card');
+const cardCloseButton = popupAddCard.querySelector('.popup__close-button');
 
 const popupCardFullscreen = document.querySelector('.popup_target_card-fullscreen');
 const fullscreenCloseButton = popupCardFullscreen.querySelector('.popup__close-button');
 const figureImage = popupCardFullscreen.querySelector('.figure__img');
 const figureName = popupCardFullscreen.querySelector('.figure__name');
 
-const cardsElement = document.querySelector('.cards');
+const cardsContainer = document.querySelector('.cards');
 const cardTemplate = document.querySelector('#card').content;
-
-const initialCards = [
-  {
-    name: 'США',
-    link: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=422&q=80'
-  },
-  {
-    name: 'Италия',
-    link: 'https://images.unsplash.com/photo-1611270629569-8b357cb88da9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
-  },
-  {
-    name: 'Мексика',
-    link: 'https://images.unsplash.com/photo-1606350383072-4b031d6bd834?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
-  },
-  {
-    name: 'Япония',
-    link: 'https://images.unsplash.com/photo-1580821082847-c53037ecfe0a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
-  },
-  {
-    name: 'Таиланд',
-    link: 'https://images.unsplash.com/photo-1618449840665-9ed506d73a34?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
-  },
-  {
-    name: 'Индия',
-    link: 'https://images.unsplash.com/photo-1596797038530-2c107229654b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80'
-  }
-];
-
 
 /** 
  * @description Создание нового DOM элемента (Карточка).
@@ -63,87 +35,87 @@ const initialCards = [
  */
 const createCard = (cardLink, cardName) => {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
+  const cardImgElement = cardElement.querySelector('.card__img');
+  cardImgElement.addEventListener('click', openPopupFullscreen);
+
+  const cardLikeButton = cardElement.querySelector('.card__logo-heart');
+  cardLikeButton.addEventListener('click', () => cardLikeButton.classList.toggle('card__logo-heart_style_filled'))
+  const cardDeleteButton = cardElement.querySelector('.card__garbage');
+
+  cardDeleteButton.addEventListener('click', () => cardElement.remove())
+
   cardElement.querySelector('.card__img').src = cardLink;
   cardElement.querySelector('.card__img').alt = cardName;
   cardElement.querySelector('.card__place-name').textContent = cardName;
-  return cardElement
+  return cardElement;
 }
+
+/** 
+ * @description Открытие попапа
+ * @param {object} - Элемент DOM
+ */
+ const openPopup = (popupElement) => popupElement.classList.add('popup_opend');
+
+/** 
+ * @description Закрытие попапа
+ * @param {object} - Элемент DOM
+ */
+ const closePopup = (popupElement) => popupElement.classList.remove('popup_opend');
 
 /** 
  * @description Открытие попап, добавление текстовых значений полей элементов profileName/profileAbout  
  * в свойства value элементов inputName/inputAbout
  */
-const popupProfileOpen = () => {
+const openPopupProfile = () => {
   inputProfileName.value = profileName.textContent;
   inputProfileAbout.value = profileAbout.textContent;
-  popupProfile.classList.add('popup_opend');
-  // popupProfileBody.classList.add('popup__body_opened');
+  openPopup(popupProfile);
 }
 
 /** 
- * @description Закрытие попап
- */
-const popupClose = (popupName) => popupName.classList.remove('popup_opend');
-
-/** 
- * @description Запись значений полей в форму formProfileSubmit, закрытие попапа popupProfile
+ * @description Запись значений полей в форму handleProfileFormSubmit, закрытие попапа popupProfile
  * @param {object} e - Событие
 */
-const formProfileSubmit = (e) => {
+const handleProfileFormSubmit = (e) => {
   e.preventDefault();
   profileName.textContent = inputProfileName.value;
   profileAbout.textContent = inputProfileAbout.value;
-  popupClose(popupProfile)
+  closePopup(popupProfile)
 }
 
 /** 
- * @description Запись значений полей в форму formCardsSubmit, закрытие попапа popupCards
+ * @description Запись значений полей в форму handleAddCardFormSubmit, закрытие попапа popupAddCard
  * @param {object} e - Событие
 */
-const formCardsSubmit = (e) => {
+const handleAddCardFormSubmit = (e) => {
   e.preventDefault();
-  const newCard = createCard(inputCardsLink.value, inputCardsName.value);
-  cardsElement.prepend(newCard);
-  popupClose(popupCards);
+  const newCard = createCard(inputCardLink.value, inputCardName.value);
+  cardsContainer.prepend(newCard);
+  formAddCardElement.reset();
+  closePopup(popupAddCard);
 }
 
-const popupFullscreenOpen = (e) => {
-    figureImage.src = e.target.src;
-    figureName.textContent = e.target.alt
-    popupCardFullscreen.classList.add('popup_opend');
+const openPopupFullscreen = (e) => {
+  figureImage.src = e.target.src;
+  figureImage.alt = e.target.alt;
+  figureName.textContent = e.target.alt
+  openPopup(popupCardFullscreen);
 }
 
-/** 
- * @description Удаление элемента карточки с классом '.card' при нажатии на кнопку с классом  'card__garbage'
- * @param {object} e - Событие
-*/
-const cardRemove = (e) => {
-    const parentElem = e.target.closest('.card')
-    parentElem.remove()
-}
 
-initialCards.forEach(elem => cardsElement.append(createCard(elem.link, elem.name)))
+initialCards.forEach(elem => cardsContainer.append(createCard(elem.link, elem.name)))
 
+editProfileButton.addEventListener('click', openPopupProfile)
+profileCloseButton.addEventListener('click', () => closePopup(popupProfile))
 
-editProfileButton.addEventListener('click', popupProfileOpen)
-profileCloseButton.addEventListener('click', () => popupClose(popupProfile))
+addCardButton.addEventListener('click', () => openPopup(popupAddCard));
+cardCloseButton.addEventListener('click', () => closePopup(popupAddCard))
 
-addCardButton.addEventListener('click', () => popupCards.classList.add('popup_opend'));
-cardsCloseButton.addEventListener('click', () => popupClose(popupCards))
+formProfileElement.addEventListener('submit', handleProfileFormSubmit);
 
-formProfileElement.addEventListener('submit', formProfileSubmit);
+formAddCardElement.addEventListener('submit', handleAddCardFormSubmit);
 
-formCardsElement.addEventListener('submit', formCardsSubmit);
-
-cardsElement.addEventListener('click', (e) => {
-  if (e.target.classList.contains('card__garbage')) {cardRemove(e)}
-  if (e.target.classList.contains('card__img')) {popupFullscreenOpen(e)}
-  if (e.target.classList.contains('card__logo-heart')) {
-    e.target.classList.toggle('card__logo-heart_style_filled')
-  }
-})
-
-fullscreenCloseButton.addEventListener('click', () => popupClose(popupCardFullscreen))
+fullscreenCloseButton.addEventListener('click', () => closePopup(popupCardFullscreen))
 
 
 

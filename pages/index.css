@@ -52,6 +52,7 @@
 @import url(../blocks/card/__logo-heart/_style/card__logo-heart_style_filled.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
 @import url(../blocks/popup/__body/_target/popup__body_target_card-fullscreen.css);
+@import url(../blocks/popup/_target/popup_target_card-fullscreen.css);
 
 
 
