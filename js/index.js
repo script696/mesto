@@ -23,7 +23,7 @@ const popupCardFullscreen = document.querySelector('.popup_target_card-fullscree
 const fullscreenCloseButton = popupCardFullscreen.querySelector('.popup__close-button');
 const figureImage = popupCardFullscreen.querySelector('.figure__img');
 const figureName = popupCardFullscreen.querySelector('.figure__name');
-
+console.log(figureName.matches('.figure__name'))
 const cardsContainer = document.querySelector('.cards');
 const cardTemplate = document.querySelector('#card').content;
 
