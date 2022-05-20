@@ -30,11 +30,17 @@
     <div class="popup popup_target_edit-profile">
       <div class="popup__body">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="form form_target_profile" name="profile-edit">
-          <input required type="text" placeholder="Имя" class="form__text form__text_position_top"
-            name="form__text_type_name">
-          <input required type="text" placeholder="О себе" class="form__text form__text_position_bottom"
-            name="form__text_type_about">
+        <form class="form form_target_profile" name="profile-edit" novalidate>
+          <label class="form__field">
+            <input type="text" placeholder="Имя" class="form__text form__text_position_top" name="form__text_type_name"
+              id="name-input" minlength="2" maxlength="40" required>
+            <span class="form__text-error name-input-error"></span>
+          </label>
+          <label class="form__field">
+            <input type="text" placeholder="О себе" class="form__text form__text_position_bottom"
+              name="form__text_type_about" id="about-input" minlength="2" maxlength="200" required>
+            <span class="form__text-error about-input-error"></span>
+          </label>
           <button type="submit" class="form__button">Сохранить</button>
         </form>
         <button type="button" class="popup__close-button"></button>
@@ -43,11 +49,17 @@
     <div class="popup popup_target_add-card">
       <div class="popup__body">
         <h2 class="popup__title">Новое место</h2>
-        <form class="form form_target_cards" name="profile-edit">
-          <input required type="text" placeholder="Название" class="form__text form__text_position_top"
-            name="form__text_type_name">
-          <input required type="text" placeholder="Ссылка на картинку" class="form__text form__text_position_bottom"
-            name="form__text_type_about">
+        <form class="form form_target_cards" name="profile-edit" novalidate>
+          <label class="form__field">
+            <input type="text" placeholder="Название" class="form__text form__text_position_top"
+              name="form__text_type_name" id="name-input" minlength="2" maxlength="30" required>
+            <span class="form__text-error name-input-error"></span>
+          </label>
+          <label class="form__field">
+            <input type="url" placeholder="Ссылка на картинку" class="form__text form__text_position_bottom"
+              name="form__text_type_about" id="link-input" required>
+            <span class="form__text-error link-input-error"></span>
+          </label>
           <button type="submit" class="form__button">Создать</button>
         </form>
         <button type="button" class="popup__close-button"></button>
@@ -77,6 +89,7 @@
     </article>
   </template>
   <script src="./js/initialCards.js"></script>
+  <script src="./js//validate.js"></script>
   <script src="./js/index.js"></script>
 </body>
 

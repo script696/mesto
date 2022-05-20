@@ -23,9 +23,9 @@ const popupCardFullscreen = document.querySelector('.popup_target_card-fullscree
 const fullscreenCloseButton = popupCardFullscreen.querySelector('.popup__close-button');
 const figureImage = popupCardFullscreen.querySelector('.figure__img');
 const figureName = popupCardFullscreen.querySelector('.figure__name');
-console.log(figureName.matches('.figure__name'))
 const cardsContainer = document.querySelector('.cards');
 const cardTemplate = document.querySelector('#card').content;
+
 
 /** 
  * @description Создание нового DOM элемента (Карточка).
@@ -50,17 +50,39 @@ const createCard = (cardLink, cardName) => {
   return cardElement;
 }
 
+
+
+/** 
+ * @description Закрытие попапа при нажатии кнопки escape
+ * @param {object} - событие
+ */
+const closeEscapeHandler = (e) => {
+  if (e.key === 'Escape') {
+    const poupCurrentOpenedElem = document.querySelector('.popup_opend')
+    closePopup(poupCurrentOpenedElem);
+  }
+}
+
+
 /** 
  * @description Открытие попапа
  * @param {object} - Элемент DOM
  */
- const openPopup = (popupElement) => popupElement.classList.add('popup_opend');
+const openPopup = (popupElement) => {
+  popupElement.classList.add('popup_opend')
+
+  document.addEventListener('keydown', closeEscapeHandler)
+}
+
 
 /** 
  * @description Закрытие попапа
  * @param {object} - Элемент DOM
  */
- const closePopup = (popupElement) => popupElement.classList.remove('popup_opend');
+const closePopup = (popupElement) => {
+  popupElement.classList.remove('popup_opend')
+  document.removeEventListener('keydown', closeEscapeHandler)
+};
 
 /** 
  * @description Открытие попап, добавление текстовых значений полей элементов profileName/profileAbout  
@@ -85,7 +107,7 @@ const handleProfileFormSubmit = (e) => {
 
 /** 
  * @description Запись значений полей в форму handleAddCardFormSubmit, закрытие попапа popupAddCard
- * @param {object} e - Событие
+ * @param {object}  - Событие
 */
 const handleAddCardFormSubmit = (e) => {
   e.preventDefault();
@@ -117,7 +139,11 @@ formAddCardElement.addEventListener('submit', handleAddCardFormSubmit);
 
 fullscreenCloseButton.addEventListener('click', () => closePopup(popupCardFullscreen))
 
-
+document.addEventListener('click', (e) => {
+  if (e.target.matches('.popup')) {
+    closePopup(e.target)
+  }
+})
 
 
 
