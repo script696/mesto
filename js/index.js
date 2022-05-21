@@ -143,7 +143,7 @@ formAddCardElement.addEventListener('submit', handleAddCardFormSubmit);
 
 fullscreenCloseButton.addEventListener('click', () => closePopup(popupCardFullscreen))
 
-document.addEventListener('click', (e) => {
+document.addEventListener('mousedown', (e) => {
   if (e.target.matches('.popup')) {
     closePopup(e.target)
   }
