@@ -11,6 +11,7 @@ const inputProfileAbout = formProfileElement.querySelector('.form__text_position
 const formAddCardElement = document.querySelector('.form_target_cards');
 const inputCardName = formAddCardElement.querySelector('.form__text_position_top');
 const inputCardLink = formAddCardElement.querySelector('.form__text_position_bottom');
+const formAddCardButton = formAddCardElement.querySelector('.form__button');
 
 const popupProfile = document.querySelector('.popup_target_edit-profile');
 const profileCloseButton = popupProfile.querySelector('.popup__close-button');
@@ -114,7 +115,10 @@ const handleAddCardFormSubmit = (e) => {
   const newCard = createCard(inputCardLink.value, inputCardName.value);
   cardsContainer.prepend(newCard);
   formAddCardElement.reset();
+  formAddCardButton.classList.add('button_inactive');
+  formAddCardButton.setAttribute('disabled', true);
   closePopup(popupAddCard);
+  
 }
 
 const openPopupFullscreen = (e) => {
