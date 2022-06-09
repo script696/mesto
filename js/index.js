@@ -1,9 +1,14 @@
+import initialCards from './initialCards.js'
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
+
 const profileInfo = document.querySelector('.profile-info');
 const editProfileButton = profileInfo.querySelector('.profile-info__edit-button');
 const addCardButton = profileInfo.querySelector('.profile-info__add-button');
 const profileName = profileInfo.querySelector('.profile-info__name');
 const profileAbout = profileInfo.querySelector('.profile-info__about');
 
+const forms = document.querySelectorAll('.form')
 const formProfileElement = document.querySelector('.form_target_profile');
 const inputProfileName = formProfileElement.querySelector('.form__text_position_top');
 const inputProfileAbout = formProfileElement.querySelector('.form__text_position_bottom');
@@ -15,7 +20,6 @@ const formAddCardButton = formAddCardElement.querySelector('.form__button');
 
 const popupProfile = document.querySelector('.popup_target_edit-profile');
 const profileCloseButton = popupProfile.querySelector('.popup__close-button');
-const popupProfileBody = popupProfile.querySelector('.popup__body');
 
 const popupAddCard = document.querySelector('.popup_target_add-card');
 const cardCloseButton = popupAddCard.querySelector('.popup__close-button');
@@ -25,32 +29,14 @@ const fullscreenCloseButton = popupCardFullscreen.querySelector('.popup__close-b
 const figureImage = popupCardFullscreen.querySelector('.figure__img');
 const figureName = popupCardFullscreen.querySelector('.figure__name');
 const cardsContainer = document.querySelector('.cards');
-const cardTemplate = document.querySelector('#card').content;
 
-
-/** 
- * @description Создание нового DOM элемента (Карточка).
- * @param {string} cardLink - Ссылка на изображение
- * @param {string} cardName - Название изображения
- * @returns {object} - Элемент DOM
- */
-const createCard = (cardLink, cardName) => {
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  const cardImgElement = cardElement.querySelector('.card__img');
-  cardImgElement.addEventListener('click', openPopupFullscreen);
-
-  const cardLikeButton = cardElement.querySelector('.card__logo-heart');
-  cardLikeButton.addEventListener('click', () => cardLikeButton.classList.toggle('card__logo-heart_style_filled'))
-  const cardDeleteButton = cardElement.querySelector('.card__garbage');
-
-  cardDeleteButton.addEventListener('click', () => cardElement.remove())
-
-  cardElement.querySelector('.card__img').src = cardLink;
-  cardElement.querySelector('.card__img').alt = cardName;
-  cardElement.querySelector('.card__place-name').textContent = cardName;
-  return cardElement;
+const options = {
+  inputSelector: '.form__text',
+  submitButtonSelector: '.form__button',
+  inactiveButtonClass: 'button_inactive',
+  inputErrorClass: 'form__text_type_error',
+  errorClass: 'form__text-error_active'
 }
-
 
 
 /** 
@@ -112,24 +98,37 @@ const handleProfileFormSubmit = (e) => {
 */
 const handleAddCardFormSubmit = (e) => {
   e.preventDefault();
-  const newCard = createCard(inputCardLink.value, inputCardName.value);
-  cardsContainer.prepend(newCard);
+
+  const card = new Card({
+    name: inputCardName.value,
+    link: inputCardLink.value
+  },
+    '.card-template',
+    { openPopup, figureImage, figureName, popupCardFullscreen });
+
+  const cardElement = card.generateCard();
+  cardsContainer.prepend(cardElement)
+
   formAddCardElement.reset();
   formAddCardButton.classList.add('button_inactive');
   formAddCardButton.setAttribute('disabled', true);
+
   closePopup(popupAddCard);
-  
-}
 
-const openPopupFullscreen = (e) => {
-  figureImage.src = e.target.src;
-  figureImage.alt = e.target.alt;
-  figureName.textContent = e.target.alt
-  openPopup(popupCardFullscreen);
 }
 
 
-initialCards.forEach(elem => cardsContainer.append(createCard(elem.link, elem.name)))
+initialCards.forEach(val => {
+  const card = new Card(val, '.card-template', { openPopup, figureImage, figureName, popupCardFullscreen });
+  const cardElement = card.generateCard();
+  cardsContainer.append(cardElement)
+})
+
+forms.forEach(form => {
+  const formElement = new FormValidator(options, form);
+  formElement.enableValidation();
+})
+
 
 editProfileButton.addEventListener('click', openPopupProfile)
 profileCloseButton.addEventListener('click', () => closePopup(popupProfile))
@@ -148,6 +147,8 @@ document.addEventListener('mousedown', (e) => {
     closePopup(e.target)
   }
 })
+
+
 
 
 

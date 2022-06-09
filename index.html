@@ -78,7 +78,7 @@
   <footer class="footer">
     <p class="footer__content">© 2020 Mesto Russia</p>
   </footer>
-  <template id="card">
+  <template id="card" class="card-template">
     <article class="card">
       <img src="./img/card/vietnam.jpg" alt="" class="card__img">
       <div class="card__bottom">
@@ -88,9 +88,10 @@
       <button type="button" class="card__garbage"></button>
     </article>
   </template>
-  <script src="./js/initialCards.js"></script>
-  <script src="./js//validate.js"></script>
-  <script src="./js/index.js"></script>
+  <script type="module" src="./js/initialCards.js"></script>
+  <script type="module" src="./js/Card.js"></script>
+  <script type="module" src="./js/FormValidator.js"></script>
+  <script type="module" src="./js/index.js"></script>
 </body>
 
 </html>
