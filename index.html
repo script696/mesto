@@ -49,7 +49,7 @@
     <div class="popup popup_target_add-card">
       <div class="popup__body">
         <h2 class="popup__title">Новое место</h2>
-        <form class="form form_target_cards" name="profile-edit" novalidate>
+        <form class="form form_target_cards" name="card-add" novalidate>
           <label class="form__field">
             <input type="text" placeholder="Название" class="form__text form__text_position_top"
               name="form__text_type_name" id="place-name-input" minlength="2" maxlength="30" required>
@@ -80,17 +80,14 @@
   </footer>
   <template id="card" class="card-template">
     <article class="card">
-      <img src="./img/card/vietnam.jpg" alt="" class="card__img">
+      <img src="#" alt="Тут должно быть блюдо национальной кухни" class="card__img">
       <div class="card__bottom">
-        <h2 class="card__place-name">Вьетнам</h2>
+        <h2 class="card__place-name"></h2>
         <button type="button" aria-label="Like" class="card__logo-heart"></button>
       </div>
       <button type="button" class="card__garbage"></button>
     </article>
   </template>
-  <script type="module" src="./js/initialCards.js"></script>
-  <script type="module" src="./js/Card.js"></script>
-  <script type="module" src="./js/FormValidator.js"></script>
   <script type="module" src="./js/index.js"></script>
 </body>
 

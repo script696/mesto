@@ -10,7 +10,10 @@ class Card {
     this._popupCardFullscreen = popupCardFullscreen;
     this._figureImage = figureImage;
     this._figureName = figureName;
+
+   
   }
+
 
   _getTemplate() {
     const cardElement = document
@@ -25,20 +28,25 @@ class Card {
   generateCard() {
 
     this._element = this._getTemplate();
+    this._image = this._element.querySelector('.card__img')
+    this._name = this._element.querySelector('.card__place-name')
+
     this._setEventListeners();
 
-    this._element.querySelector('.card__img').src = this._cardLink;
-    this._element.querySelector('.card__img').alt = this._cardName;
-    this._element.querySelector('.card__place-name').textContent = this._cardName;
+    this._image.src = this._cardLink;
+
+    this._image.alt = this._cardName;
+    this._name.textContent = this._cardName;
 
     return this._element;
+
   }
 
   _openPopupFullscreen(e) {
     this._figureImage.src = e.target.src;
     this._figureImage.alt = e.target.alt;
     this._figureName.textContent = e.target.alt
-    // openPopup(popupCardFullscreen);
+
     this._openPopup(this._popupCardFullscreen)
   }
 
@@ -49,6 +57,7 @@ class Card {
 
   _removeCardElement() {
     this._element.remove();
+    this._element = null;
   }
 
   _setEventListeners() {

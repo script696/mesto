@@ -8,7 +8,6 @@ const addCardButton = profileInfo.querySelector('.profile-info__add-button');
 const profileName = profileInfo.querySelector('.profile-info__name');
 const profileAbout = profileInfo.querySelector('.profile-info__about');
 
-const forms = document.querySelectorAll('.form')
 const formProfileElement = document.querySelector('.form_target_profile');
 const inputProfileName = formProfileElement.querySelector('.form__text_position_top');
 const inputProfileAbout = formProfileElement.querySelector('.form__text_position_bottom');
@@ -16,7 +15,6 @@ const inputProfileAbout = formProfileElement.querySelector('.form__text_position
 const formAddCardElement = document.querySelector('.form_target_cards');
 const inputCardName = formAddCardElement.querySelector('.form__text_position_top');
 const inputCardLink = formAddCardElement.querySelector('.form__text_position_bottom');
-const formAddCardButton = formAddCardElement.querySelector('.form__button');
 
 const popupProfile = document.querySelector('.popup_target_edit-profile');
 const profileCloseButton = popupProfile.querySelector('.popup__close-button');
@@ -92,6 +90,23 @@ const handleProfileFormSubmit = (e) => {
   closePopup(popupProfile)
 }
 
+
+
+/** 
+ * @description Создает экземпляр класса Card
+ * @param {object} nameLinkData - Объект с именем карточки и ссылкой
+ * @param {string} templateName - Шаблон карточки
+ * @param {object} fooData - Объект с функциями
+ * @return {object} - DOM элемент с карточкой
+ * 
+*/
+const createCard = (nameLinkData, templateName, fooData) => {
+  const card = new Card(nameLinkData, templateName, fooData)
+
+  return card.generateCard();
+}
+
+
 /** 
  * @description Запись значений полей в форму handleAddCardFormSubmit, закрытие попапа popupAddCard
  * @param {object}  - Событие
@@ -99,19 +114,25 @@ const handleProfileFormSubmit = (e) => {
 const handleAddCardFormSubmit = (e) => {
   e.preventDefault();
 
-  const card = new Card({
-    name: inputCardName.value,
-    link: inputCardLink.value
-  },
+  const cardElement = createCard(
+    {
+      name: inputCardName.value,
+      link: inputCardLink.value
+    },
     '.card-template',
-    { openPopup, figureImage, figureName, popupCardFullscreen });
+    {
+      openPopup,
+      figureImage,
+      figureName,
+      popupCardFullscreen
+    },
+  )
 
-  const cardElement = card.generateCard();
   cardsContainer.prepend(cardElement)
 
   formAddCardElement.reset();
-  formAddCardButton.classList.add('button_inactive');
-  formAddCardButton.setAttribute('disabled', true);
+
+  formAddCardValidation.toggleButtonState()
 
   closePopup(popupAddCard);
 
@@ -119,15 +140,17 @@ const handleAddCardFormSubmit = (e) => {
 
 
 initialCards.forEach(val => {
-  const card = new Card(val, '.card-template', { openPopup, figureImage, figureName, popupCardFullscreen });
-  const cardElement = card.generateCard();
+  const cardElement = createCard(val, '.card-template', { openPopup, figureImage, figureName, popupCardFullscreen });
+
   cardsContainer.append(cardElement)
 })
 
-forms.forEach(form => {
-  const formElement = new FormValidator(options, form);
-  formElement.enableValidation();
-})
+
+const formProfileValidation =  new FormValidator(options, formProfileElement);
+formProfileValidation.enableValidation();
+
+const formAddCardValidation = new FormValidator(options, formAddCardElement);
+formAddCardValidation.enableValidation();
 
 
 editProfileButton.addEventListener('click', openPopupProfile)
