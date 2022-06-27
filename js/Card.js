@@ -1,6 +1,6 @@
 class Card {
 
-  constructor(data, cardSelector, { openPopup, figureImage, figureName, popupCardFullscreen }) {
+  constructor(data, cardSelector, { openPopup, figureImage, figureName, popupCardFullscreen }, testObject, handleCardClick) {
     this._cardLink = data.link;
     this._cardName = data.name;
 
@@ -11,7 +11,8 @@ class Card {
     this._figureImage = figureImage;
     this._figureName = figureName;
 
-   
+    this._testObject = testObject;
+    this._handleCardClick = handleCardClick;
   }
 
 
@@ -42,13 +43,14 @@ class Card {
 
   }
 
-  _openPopupFullscreen(e) {
-    this._figureImage.src = e.target.src;
-    this._figureImage.alt = e.target.alt;
-    this._figureName.textContent = e.target.alt
+  // _openPopupFullscreen(e) {
+  //   console.log(this)
+  //   this._figureImage.src = e.target.src;
+  //   this._figureImage.alt = e.target.alt;
+  //   this._figureName.textContent = e.target.alt
 
-    this._openPopup(this._popupCardFullscreen)
-  }
+  //   this._openPopup(this._popupCardFullscreen)
+  // }
 
   _handleCardLike() {
     const cardLikeButton = this._element.querySelector('.card__logo-heart');
@@ -64,7 +66,7 @@ class Card {
 
     this._element.querySelector('.card__img')
       .addEventListener('click', (e) => {
-        this._openPopupFullscreen(e)
+        this._handleCardClick.call(this._testObject, this._figureImage, this._figureName, e.target.src, e.target.alt)
       });
 
     this._element.querySelector('.card__logo-heart')
@@ -82,3 +84,20 @@ class Card {
 export default Card;
 
 
+
+// this._element.querySelector('.card__img')
+//       .addEventListener('click', (e) => {
+//         this._openPopupFullscreen(e)
+//       });
+
+
+
+
+// _openPopupFullscreen(e) {
+//   console.log(this)
+//   this._figureImage.src = e.target.src;
+//   this._figureImage.alt = e.target.alt;
+//   this._figureName.textContent = e.target.alt
+
+//   this._openPopup(this._popupCardFullscreen)
+// }

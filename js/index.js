@@ -1,6 +1,11 @@
 import initialCards from './initialCards.js'
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
+import Section from './Section.js';
+import Popup from './Popup.js'
+import PopupWithImage from './PopupWithImage.js';
+import PopupWithForm from './PopupWithForm.js'
+import UserInfo from './UserInfo.js'
 
 const profileInfo = document.querySelector('.profile-info');
 const editProfileButton = profileInfo.querySelector('.profile-info__edit-button');
@@ -27,6 +32,7 @@ const fullscreenCloseButton = popupCardFullscreen.querySelector('.popup__close-b
 const figureImage = popupCardFullscreen.querySelector('.figure__img');
 const figureName = popupCardFullscreen.querySelector('.figure__name');
 const cardsContainer = document.querySelector('.cards');
+const testSelector = '.cards';
 
 const options = {
   inputSelector: '.form__text',
@@ -37,58 +43,59 @@ const options = {
 }
 
 
+
 /** 
  * @description Закрытие попапа при нажатии кнопки escape
  * @param {object} - событие
  */
-const closeEscapeHandler = (e) => {
-  if (e.key === 'Escape') {
-    const poupCurrentOpenedElem = document.querySelector('.popup_opend')
-    closePopup(poupCurrentOpenedElem);
-  }
-}
+// const closeEscapeHandler = (e) => {
+//   if (e.key === 'Escape') {
+//     const poupCurrentOpenedElem = document.querySelector('.popup_opend')
+//     closePopup(poupCurrentOpenedElem);
+//   }
+// }
 
 
 /** 
  * @description Открытие попапа
  * @param {object} - Элемент DOM
  */
-const openPopup = (popupElement) => {
-  popupElement.classList.add('popup_opend')
+// const openPopup = (popupElement) => {
+//   popupElement.classList.add('popup_opend')
 
-  document.addEventListener('keydown', closeEscapeHandler)
-}
+//   document.addEventListener('keydown', closeEscapeHandler)
+// }
 
 
 /** 
  * @description Закрытие попапа
  * @param {object} - Элемент DOM
  */
-const closePopup = (popupElement) => {
-  popupElement.classList.remove('popup_opend')
-  document.removeEventListener('keydown', closeEscapeHandler)
-};
+// const closePopup = (popupElement) => {
+//   popupElement.classList.remove('popup_opend')
+//   document.removeEventListener('keydown', closeEscapeHandler)
+// };
 
 /** 
  * @description Открытие попап, добавление текстовых значений полей элементов profileName/profileAbout  
  * в свойства value элементов inputName/inputAbout
  */
-const openPopupProfile = () => {
-  inputProfileName.value = profileName.textContent;
-  inputProfileAbout.value = profileAbout.textContent;
-  openPopup(popupProfile);
-}
+// const openPopupProfile = () => {
+//   inputProfileName.value = profileName.textContent;
+//   inputProfileAbout.value = profileAbout.textContent;
+//   openPopup(popupProfile);
+// }
 
 /** 
  * @description Запись значений полей в форму handleProfileFormSubmit, закрытие попапа popupProfile
  * @param {object} e - Событие
 */
-const handleProfileFormSubmit = (e) => {
-  e.preventDefault();
-  profileName.textContent = inputProfileName.value;
-  profileAbout.textContent = inputProfileAbout.value;
-  closePopup(popupProfile)
-}
+// const handleProfileFormSubmit = (e) => {
+//   e.preventDefault();
+//   profileName.textContent = inputProfileName.value;
+//   profileAbout.textContent = inputProfileAbout.value;
+//   closePopup(popupProfile)
+// }
 
 
 
@@ -100,8 +107,8 @@ const handleProfileFormSubmit = (e) => {
  * @return {object} - DOM элемент с карточкой
  * 
 */
-const createCard = (nameLinkData, templateName, fooData) => {
-  const card = new Card(nameLinkData, templateName, fooData)
+const createCard = (nameLinkData, templateName, fooData, popupWithImgObj, popupMethodOpen) => {
+  const card = new Card(nameLinkData, templateName, fooData, popupWithImgObj, popupMethodOpen)
 
   return card.generateCard();
 }
@@ -111,82 +118,88 @@ const createCard = (nameLinkData, templateName, fooData) => {
  * @description Запись значений полей в форму handleAddCardFormSubmit, закрытие попапа popupAddCard
  * @param {object}  - Событие
 */
-const handleAddCardFormSubmit = (e) => {
-  e.preventDefault();
+// const handleAddCardFormSubmit = (e) => {
+//   e.preventDefault();
 
-  const cardElement = createCard(
-    {
-      name: inputCardName.value,
-      link: inputCardLink.value
-    },
-    '.card-template',
-    {
-      openPopup,
-      figureImage,
-      figureName,
-      popupCardFullscreen
-    },
-  )
+//   const cardElement = createCard(
+//     {
+//       name: inputCardName.value,
+//       link: inputCardLink.value
+//     },
+//     '.card-template',
+//     {
+//       openPopup,
+//       figureImage,
+//       figureName,
+//       popupCardFullscreen
+//     },
+//   )
 
-  cardsContainer.prepend(cardElement)
+//   cardsContainer.prepend(cardElement)
 
-  formAddCardElement.reset();
+//   formAddCardElement.reset();
 
-  formAddCardValidation.toggleButtonState()
+//   formAddCardValidation.toggleButtonState()
 
-  closePopup(popupAddCard);
+//   closePopup(popupAddCard);
 
+// }
+
+
+const popupAddCardObj = new Popup('.popup_target_add-card');
+popupAddCardObj.setEventListeners()
+const popupWithImgObj = new PopupWithImage('.popup_target_card-fullscreen')
+const popupWithForm = new PopupWithForm('.popup_target_edit-profile', handleProfileFormSubmit)
+
+const userInfo = new UserInfo('.profile-info__name', '.profile-info__about');
+
+
+const test = popupWithForm._getInputValues()
+
+// console.log(test.inputProfileAbout)
+
+popupWithForm.setEventListeners()
+
+function handleProfileFormSubmit () {
+  return userInfo.getUserInfo()
 }
 
 
-initialCards.forEach(val => {
-  const cardElement = createCard(val, '.card-template', { openPopup, figureImage, figureName, popupCardFullscreen });
 
-  cardsContainer.append(cardElement)
-})
+const initialCardList = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const cardElement = createCard(item, '.card-template', { figureImage, figureName, popupCardFullscreen }, popupWithImgObj, popupWithImgObj.open);
+
+    initialCardList.addItem(cardElement)
+  }
+},
+  testSelector
+)
 
 
-const formProfileValidation =  new FormValidator(options, formProfileElement);
+
+const formProfileValidation = new FormValidator(options, formProfileElement);
 formProfileValidation.enableValidation();
 
 const formAddCardValidation = new FormValidator(options, formAddCardElement);
 formAddCardValidation.enableValidation();
 
 
-editProfileButton.addEventListener('click', openPopupProfile)
-profileCloseButton.addEventListener('click', () => closePopup(popupProfile))
-
-addCardButton.addEventListener('click', () => openPopup(popupAddCard));
-cardCloseButton.addEventListener('click', () => closePopup(popupAddCard))
-
-formProfileElement.addEventListener('submit', handleProfileFormSubmit);
-
-formAddCardElement.addEventListener('submit', handleAddCardFormSubmit);
-
-fullscreenCloseButton.addEventListener('click', () => closePopup(popupCardFullscreen))
-
-document.addEventListener('mousedown', (e) => {
-  if (e.target.matches('.popup')) {
-    closePopup(e.target)
-  }
+editProfileButton.addEventListener('click', () => {
+  popupWithForm.open()
 })
 
+addCardButton.addEventListener('click', () => {
+  popupAddCardObj.open()
+});
+
+
+// formProfileElement.addEventListener('submit', handleProfileFormSubmit);
+
+// formAddCardElement.addEventListener('submit', handleAddCardFormSubmit);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+initialCardList.rendererItems()
 
