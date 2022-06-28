@@ -1,32 +1,35 @@
 import Popup from "./Popup.js";
 
 class PopupWithForm extends Popup {
-  constructor(popupSelector, handleProfileFormSubmit){
+  constructor(popupSelector, handleProfileFormSubmit) {
     super(popupSelector)
     this._handleProfileFormSubmit = handleProfileFormSubmit;
-  }
- 
-  _getInputValues(){
-    const input = this._element.querySelector('.form_target_profile')
-    const inputProfileName = this._element.querySelector('.form__text_position_top')
-    const inputProfileAbout = this._element.querySelector('.form__text_position_bottom')
-    
-    return {input, inputProfileName, inputProfileAbout}
+    this._form = this._element.querySelector('.form');
+
   }
 
-  setEventListeners(){
-    const {input, inputProfileName, inputProfileAbout} = this._getInputValues();
+  _getInputValues() {
+    this._inputTopVal = this._element.querySelector('.form__text_position_top')
+    this._inputBottomVal = this._element.querySelector('.form__text_position_bottom')
 
+    return { input : this._form, inputTopVal: this._inputTopVal, inputBottomVal: this._inputBottomVal}
+  }
+
+  setEventListeners() {
     super.setEventListeners()
 
-    input.addEventListener('submit',  () => {
-      const {nameText, aboutText} = this._handleProfileFormSubmit();
+    this._form.addEventListener('submit', (e) => {
+      e.preventDefault();
 
-      nameText.textContent = inputProfileName.value
-      aboutText.textContent = inputProfileAbout.value
+      this._handleProfileFormSubmit(this._getInputValues());
 
       this.close()
     })
+  }
+
+  close() {
+    this._form.reset()
+    super.close()
 
   }
 }

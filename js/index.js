@@ -24,8 +24,8 @@ const inputCardLink = formAddCardElement.querySelector('.form__text_position_bot
 const popupProfile = document.querySelector('.popup_target_edit-profile');
 const profileCloseButton = popupProfile.querySelector('.popup__close-button');
 
-const popupAddCard = document.querySelector('.popup_target_add-card');
-const cardCloseButton = popupAddCard.querySelector('.popup__close-button');
+// const popupAddCard = document.querySelector('.popup_target_add-card');
+// const cardCloseButton = popupAddCard.querySelector('.popup__close-button');
 
 const popupCardFullscreen = document.querySelector('.popup_target_card-fullscreen');
 const fullscreenCloseButton = popupCardFullscreen.querySelector('.popup__close-button');
@@ -144,26 +144,29 @@ const createCard = (nameLinkData, templateName, fooData, popupWithImgObj, popupM
 //   closePopup(popupAddCard);
 
 // }
+const handleProfileFormSubmit = (inputData) => {
+  const userInfoData = userInfo.getUserInfo();
+  userInfo.setUserInfo(userInfoData, inputData)
 
-
-const popupAddCardObj = new Popup('.popup_target_add-card');
-popupAddCardObj.setEventListeners()
-const popupWithImgObj = new PopupWithImage('.popup_target_card-fullscreen')
-const popupWithForm = new PopupWithForm('.popup_target_edit-profile', handleProfileFormSubmit)
-
-const userInfo = new UserInfo('.profile-info__name', '.profile-info__about');
-
-
-const test = popupWithForm._getInputValues()
-
-// console.log(test.inputProfileAbout)
-
-popupWithForm.setEventListeners()
-
-function handleProfileFormSubmit () {
-  return userInfo.getUserInfo()
 }
 
+
+const handleAddCardFormSubmit = (inputData) => {
+  const item = {
+    name: inputData.inputTopVal.value,
+    link: inputData.inputBottomVal.value,
+  }
+  const cardElement = createCard(item, '.card-template', { figureImage, figureName, popupCardFullscreen }, popupWithImgObj, popupWithImgObj.open);
+  cardsContainer.prepend(cardElement) 
+}
+
+
+const popupWithImgObj = new PopupWithImage('.popup_target_card-fullscreen')
+const popupEditProfile = new PopupWithForm('.popup_target_edit-profile', handleProfileFormSubmit)
+const popupAddCard = new PopupWithForm('.popup_target_add-card', handleAddCardFormSubmit);
+
+
+const userInfo = new UserInfo('.profile-info__name', '.profile-info__about');
 
 
 const initialCardList = new Section({
@@ -178,7 +181,6 @@ const initialCardList = new Section({
 )
 
 
-
 const formProfileValidation = new FormValidator(options, formProfileElement);
 formProfileValidation.enableValidation();
 
@@ -187,17 +189,12 @@ formAddCardValidation.enableValidation();
 
 
 editProfileButton.addEventListener('click', () => {
-  popupWithForm.open()
+  popupEditProfile.open()
 })
 
 addCardButton.addEventListener('click', () => {
-  popupAddCardObj.open()
+  popupAddCard.open()
 });
-
-
-// formProfileElement.addEventListener('submit', handleProfileFormSubmit);
-
-// formAddCardElement.addEventListener('submit', handleAddCardFormSubmit);
 
 
 

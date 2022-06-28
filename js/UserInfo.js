@@ -8,13 +8,14 @@ class UserInfo {
 
   getUserInfo() {
     return {
-      nameText : this._profileNameElement, 
-      aboutText : this._profileAboutElement,
+      nameElem : this._profileNameElement, 
+      aboutElem : this._profileAboutElement,
     }
   }
 
-  setUserInfo(){
-    
+  setUserInfo({nameElem, aboutElem}, {inputTopVal, inputBottomVal}){
+    nameElem.textContent = inputTopVal.value;
+    aboutElem.textContent = inputBottomVal.value;
   }
 
 }
