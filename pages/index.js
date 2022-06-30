@@ -14,6 +14,8 @@ import {
   figureName,
   cardsContainerSelector,
 } from '../utils/constants.js';
+import './index.css';
+
 
 
 const options = {
