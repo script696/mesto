@@ -1,13 +1,10 @@
 class Card {
 
-  constructor(data, cardSelector, {figureImage, figureName,}, handleCardClick) {
+  constructor(data, cardSelector, handleCardClick) {
     this._cardLink = data.link;
     this._cardName = data.name;
 
     this._cardSelector = cardSelector;
-
-    this._figureImage = figureImage;
-    this._figureName = figureName;
 
     this._handleCardClick = handleCardClick;
   }
@@ -27,6 +24,7 @@ class Card {
     this._element = this._getTemplate();
     this._image = this._element.querySelector('.card__img')
     this._name = this._element.querySelector('.card__place-name')
+    this._likeHeart = this._element.querySelector('.card__logo-heart');
 
     this._setEventListeners();
 
@@ -39,10 +37,9 @@ class Card {
 
   }
 
- 
+
   _handleCardLike() {
-    const cardLikeButton = this._element.querySelector('.card__logo-heart');
-    cardLikeButton.classList.toggle('card__logo-heart_style_filled');
+    this._likeHeart.classList.toggle('card__logo-heart_style_filled');
   }
 
   _removeCardElement() {
@@ -52,9 +49,9 @@ class Card {
 
   _setEventListeners() {
 
-    this._element.querySelector('.card__img')
+    this._image
       .addEventListener('click', (e) => {
-        this._handleCardClick(this._figureImage, this._figureName, e.target.src, e.target.alt)
+        this._handleCardClick(e.target.src, e.target.alt)
       });
 
     this._element.querySelector('.card__logo-heart')

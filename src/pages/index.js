@@ -1,4 +1,4 @@
-import initialCards from '../components/initialCards.js';
+import initialCards from '../utils/initialCards.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
@@ -8,23 +8,12 @@ import UserInfo from '../components/UserInfo.js';
 import {
   editProfileButton,
   addCardButton,
-  formProfileElement,
-  formAddCardElement,
-  figureImage,
-  figureName,
   cardsContainerSelector,
+  options,
 } from '../utils/constants.js';
 import './index.css';
 
 
-
-const options = {
-  inputSelector: '.form__text',
-  submitButtonSelector: '.form__button',
-  inactiveButtonClass: 'button_inactive',
-  inputErrorClass: 'form__text_type_error',
-  errorClass: 'form__text-error_active'
-}
 
 
 /** 
@@ -35,8 +24,9 @@ const options = {
  * @return {object} - DOM элемент с карточкой
  * 
 */
-const createCard = (nameLinkData, templateName, fooData, popupWithImgObj, popupMethodOpen) => {
-  const card = new Card(nameLinkData, templateName, fooData, popupWithImgObj, popupMethodOpen)
+const createCard = (nameLinkData, templateName, popupMethodOpen) => {
+
+  const card = new Card(nameLinkData, templateName, popupMethodOpen)
 
   return card.generateCard();
 }
@@ -48,11 +38,7 @@ const createCard = (nameLinkData, templateName, fooData, popupWithImgObj, popupM
  * записывает данные из формы в поля профиля методом setUserInfo
  * @param {object} inputData - Объект с данными из формы, введенные пользователем
 */
-const handleProfileFormSubmit = (inputData) => {
-  const userInfoData = userInfo.getUserInfo();
-  userInfo.setUserInfo(userInfoData, inputData)
-
-}
+const handleProfileFormSubmit = (inputData) => userInfo.setUserInfo(inputData)
 
 /** 
  * @description Вызывается в момент сабмита формы добавления карточки,
@@ -62,30 +48,32 @@ const handleProfileFormSubmit = (inputData) => {
  * @param {object} inputData - Объект с данными из формы, введенные пользователем
 */
 const handleAddCardFormSubmit = (inputData) => {
+
   const newCard = {
-    name: inputData.inputTopVal.value,
-    link: inputData.inputBottomVal.value,
+    name: inputData.form__text_type_name,
+    link: inputData.form__text_type_about,
   }
 
-  const newCardItem = new Section({
-    items: [newCard],
-    renderer: (item) => {
-      const cardElement = createCard(item, '.card-template', { figureImage, figureName}, popupWithImgObj.open);
+  const cardElement = createCard(newCard, '.card-template', popupWithImgObj.open);
 
-      initialCardList.prependItem(cardElement)
-    }
-  },
-    cardsContainerSelector
-  )
+  sectionRenderer.prependItem(cardElement)
 
-  newCardItem.rendererItems()
 }
 
 
-const formProfileValidation = new FormValidator(options, formProfileElement);
-formProfileValidation.enableValidation();
-const formAddCardValidation = new FormValidator(options, formAddCardElement);
-formAddCardValidation.enableValidation();
+const formValidators = [...document.querySelectorAll('.form')]
+  .reduce((accum, formElement) => {
+
+    const validator = new FormValidator(options, formElement);
+    validator.enableValidation();
+
+    const formName = formElement.name;
+
+    accum[formName] = validator;
+
+    return accum
+  }, {})
+
 
 const popupWithImgObj = new PopupWithImage('.popup_target_card-fullscreen')
 popupWithImgObj.setEventListeners()
@@ -97,24 +85,30 @@ popupAddCard.setEventListeners()
 
 const userInfo = new UserInfo('.profile-info__name', '.profile-info__about');
 
-const initialCardList = new Section({
+const sectionRenderer = new Section({
   items: initialCards,
   renderer: (item) => {
-    const cardElement = createCard(item, '.card-template', { figureImage, figureName}, popupWithImgObj.open);
+    const cardElement = createCard(item, '.card-template', popupWithImgObj.open);
 
-    initialCardList.addItem(cardElement)
+    sectionRenderer.addItem(cardElement)
   }
 },
   cardsContainerSelector
 )
 
 editProfileButton.addEventListener('click', () => {
+  formValidators['profile-edit'].toggleButtonState()
+
+  const profileInfoData = userInfo.getUserInfo()
+  popupEditProfile.setInputValues(profileInfoData)
   popupEditProfile.open()
 })
 
 addCardButton.addEventListener('click', () => {
+  formValidators['card-add'].toggleButtonState()
   popupAddCard.open()
+
 });
 
-initialCardList.rendererItems()
+sectionRenderer.rendererItems()
 

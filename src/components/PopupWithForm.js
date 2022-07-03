@@ -5,14 +5,21 @@ class PopupWithForm extends Popup {
     super(popupSelector)
     this._handleProfileFormSubmit = handleProfileFormSubmit;
     this._form = this._element.querySelector('.form');
+    this._inputList = this._element.querySelectorAll('.form__text');
+    this._formValues = {};
 
   }
 
   _getInputValues() {
-    this._inputTopVal = this._element.querySelector('.form__text_position_top')
-    this._inputBottomVal = this._element.querySelector('.form__text_position_bottom')
+    this._inputList.forEach(input => {
+      this._formValues[input.name] = input.value;
+    });
 
-    return { input: this._form, inputTopVal: this._inputTopVal, inputBottomVal: this._inputBottomVal }
+    return this._formValues;
+  }
+
+  setInputValues(data) {
+    this._inputList.forEach(input => input.value = data[input.name]);
   }
 
 
@@ -23,9 +30,7 @@ class PopupWithForm extends Popup {
 
       e.preventDefault();
 
-      const validationObj = this._handleProfileFormSubmit(this._getInputValues());
-
-      this._validationObj = validationObj;
+      this._handleProfileFormSubmit(this._getInputValues());
 
       this.close()
     })
@@ -34,8 +39,6 @@ class PopupWithForm extends Popup {
 
   close() {
     this._form.reset()
-
-    this._validationObj?.toggleButtonState()
 
     super.close()
   }
