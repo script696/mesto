@@ -6,6 +6,8 @@ class PopupWithForm extends Popup {
     this._handleProfileFormSubmit = handleProfileFormSubmit;
     this._form = this._element.querySelector('.form');
     this._inputList = this._element.querySelectorAll('.form__text');
+    this._popupSubmitButtonText = this._element.querySelector('.form__button');
+    this._popupSubmitButtonAltText = 'Сохранение...'
     this._formValues = {};
 
   }
@@ -16,6 +18,11 @@ class PopupWithForm extends Popup {
     });
 
     return this._formValues;
+  }
+
+  switchButtonText(){
+    [this._popupSubmitButtonText.textContent, this._popupSubmitButtonAltText] = [this._popupSubmitButtonAltText, this._popupSubmitButtonText.textContent]
+
   }
 
   setInputValues(data) {
@@ -32,7 +39,7 @@ class PopupWithForm extends Popup {
 
       this._handleProfileFormSubmit(this._getInputValues());
 
-      this.close()
+      // this.close()
     })
   }
 

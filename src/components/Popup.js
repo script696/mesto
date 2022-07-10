@@ -1,7 +1,8 @@
 class Popup {
   constructor(popupSelector) {
     this._popupSelector = popupSelector;
-    this._element = document.querySelector(this._popupSelector)
+    this._element = document.querySelector(this._popupSelector);
+    this._popupCloseButton = this._element.querySelector('.popup__close-button');
   }
 
   _handleEscClose = (e) => {
@@ -11,8 +12,7 @@ class Popup {
   }
 
   setEventListeners() {
-    const popupCloseButton = this._element.querySelector('.popup__close-button')
-    popupCloseButton.addEventListener('click', () => this.close())
+    this._popupCloseButton.addEventListener('click', () => this.close())
 
     this._element.addEventListener('mousedown', (e) => {
       if (e.target.matches(this._popupSelector)) this.close()

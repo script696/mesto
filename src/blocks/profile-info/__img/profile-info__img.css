@@ -1,9 +1,14 @@
 .profile-info__img{
-  height: 120px;
-  object-fit: contain;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
   border-radius: 50%;
   overflow: hidden;
 }
+
+
+
 @media screen and (max-width: 714px) {
   .profile-info__img {
     margin-bottom: 26px;
