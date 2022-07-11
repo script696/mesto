@@ -25,6 +25,8 @@ const formValidators = [...document.querySelectorAll('.form')]
 
     const formName = formElement.name;
 
+    console.log(formName)
+
     accum[formName] = validator;
 
     return accum
@@ -184,9 +186,8 @@ const sectionRenderer = new Section({
 
 
 editProfileButton.addEventListener('click', () => {
-  formValidators['profile-edit'].toggleButtonState()
-
   const profileInfoData = userInfo.getUserInfo()
+
   popupEditProfile.setInputValues(profileInfoData)
   popupEditProfile.open()
 })
@@ -198,6 +199,8 @@ addCardButton.addEventListener('click', () => {
 });
 
 editAvatarButton.addEventListener('click', () => {
+  formValidators['edit-avatar'].toggleButtonState()
+
   popupEditAvatar.open()
 })
 
