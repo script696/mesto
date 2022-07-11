@@ -1,4 +1,3 @@
-import initialCards from '../utils/initialCards.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
@@ -31,6 +30,8 @@ const formValidators = [...document.querySelectorAll('.form')]
     return accum
   }, {})
 
+
+
 /** 
  * @description Создает экземпляр класса Card
  * @param {object} nameLinkData - Объект с именем карточки и ссылкой
@@ -45,6 +46,26 @@ const createCard = (data) => {
   return card.generateCard();
 }
 
+
+
+const handleCardsLike = (isILiked, cardId) => {
+
+  if (isILiked) return api.toggleLike(cardId, 'PUT')
+  else return api.toggleLike(cardId, 'DELETE')
+}
+
+
+
+const deleteCard = (currentCard) => {
+  const cardId = currentCard.getCardId()
+  api.deleteCard(cardId)
+    .then(res => {
+      if (res.message = 'Пост удален') currentCard.removeCardElement()
+    })
+    .catch(err => console.error(err))
+}
+
+
 /** 
  * @description Вызывается в момент сабмита формы редактирования профиля,
  * получает данные из формы, введенные пользователем,
@@ -57,12 +78,13 @@ const handleProfileFormSubmit = ({ form__text_type_name: name, form__text_type_a
 
   api.modifyProfile(name, about)
     .then(data => {
-      console.log(data) //undefined потому что ответ еще не пршел но в блок then мы почему то вошли
       userInfo.setUserInfo(data)
-      popupEditProfile.switchButtonText()
-      popupEditProfile.close()
     })
     .catch(err => console.error(err))
+    .finally(() => {
+      popupEditProfile.close()
+      popupEditProfile.switchButtonText()
+    })
 };
 
 /** 
@@ -74,6 +96,7 @@ const handleProfileFormSubmit = ({ form__text_type_name: name, form__text_type_a
 */
 const handleAddCardFormSubmit = ({ form__text_type_name: name, form__text_type_about: link }) => {
   const userId = userInfo.getUserId();
+  popupAddCard.switchButtonText()
 
   api.addNewCard(name, link)
     .then(item => {
@@ -81,26 +104,25 @@ const handleAddCardFormSubmit = ({ form__text_type_name: name, form__text_type_a
       sectionRenderer.prependItem(cardElement)
     })
     .catch(err => console.error(err))
+    .finally(() => {
+      popupAddCard.close()
+      popupAddCard.switchButtonText()
+    })
 }
 
 const handleEditProfile = ({ form__text_type_about: avatar }) => {
+  popupEditAvatar.switchButtonText()
+
   api.editAvatar(avatar)
     .then(res => {
-      if (res.ok) userInfo.editProfileAvatar(avatar)
+      if(res.avatar === avatar) userInfo.editProfileAvatar(avatar)
     })
     .catch(err => console.error(err))
-}
-
-const deleteCard = (currentCard) => {
-  const cardId = currentCard.getCardId()
-  api.deleteCard(cardId)
-    .then(res => {
-      if (res.message = 'Пост удален') currentCard.removeCardElement()
+    .finally(() => {
+      popupEditAvatar.switchButtonText()
+      popupEditAvatar.close()
     })
-    .catch(err => console.error(err))
-
 }
-
 
 const openPopupWithConfirmation = (currentCard) => {
   popupWithConfirmation.open()
@@ -109,12 +131,6 @@ const openPopupWithConfirmation = (currentCard) => {
 
 const openPopupWithImg = (imageLink, imageText) => {
   popupWithImgObj.open(imageLink, imageText)
-}
-
-const handleCardsLike = (isILiked, cardId) => {
-
-  if (isILiked) return api.toggleLike(cardId, 'PUT')
-  else return api.toggleLike(cardId, 'DELETE')
 }
 
 const renderPage = () => {
@@ -149,15 +165,12 @@ popupWithConfirmation.setEventListeners()
 const popupEditAvatar = new PopupWithForm('.popup_target_edit-avatar', handleEditProfile);
 popupEditAvatar.setEventListeners()
 
-
-
 const userInfo = new UserInfo('.profile-info__name', '.profile-info__about', '.profile-info__img');
 
 const api = new Api({
   id: 'https://mesto.nomoreparties.co/v1/cohort-45',
   token: '4f28713c-cb2d-4ebc-a909-b129b423af46',
 });
-
 
 const sectionRenderer = new Section({
   renderer: (item, userId) => {
@@ -167,6 +180,8 @@ const sectionRenderer = new Section({
   },
   cardsContainerSelector,
 })
+
+
 
 editProfileButton.addEventListener('click', () => {
   formValidators['profile-edit'].toggleButtonState()

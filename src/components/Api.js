@@ -10,7 +10,11 @@ class Api {
         authorization: this._token,
       }
     })
-      .then(res => res.json())
+      .then(res => {
+        return res.ok
+          ? res.json()
+          : Promise.reject(`Ошибка: ${res.status}`)
+      })
   }
 
   getInitialCards() {
@@ -19,7 +23,11 @@ class Api {
         authorization: this._token,
       }
     })
-      .then(res => res.json())
+      .then(res => {
+        return res.ok
+          ? res.json()
+          : Promise.reject(`Ошибка: ${res.status}`)
+      })
   }
 
   modifyProfile(name, about) {
@@ -35,12 +43,12 @@ class Api {
       })
     })
       .then(res => {
-        setTimeout(()=>{return res.json()},4000)
-        // return res.ok
-        //   ? res.json()
-        //   : Promise.reject(`Ошибка: ${res.status}`)
+        return res.ok
+          ? res.json()
+          : Promise.reject(`Ошибка: ${res.status}`)
       })
   }
+
 
   addNewCard(name, link) {
     return fetch(`${this._id}/cards`, {
@@ -54,7 +62,11 @@ class Api {
         link,
       })
     })
-      .then(res => res.json())
+      .then(res => {
+        return res.ok
+          ? res.json()
+          : Promise.reject(`Ошибка: ${res.status}`)
+      })
   }
 
   deleteCard(cardId) {
@@ -66,7 +78,11 @@ class Api {
       }
     }
     )
-      .then(res => res.json())
+      .then(res => {
+        return res.ok
+          ? res.json()
+          : Promise.reject(`Ошибка: ${res.status}`)
+      })
   }
 
   toggleLike(cardId, method) {
@@ -77,7 +93,11 @@ class Api {
         'Content-Type': 'application/json',
       }
     })
-      .then(res => res.json())
+      .then(res => {
+        return res.ok
+          ? res.json()
+          : Promise.reject(`Ошибка: ${res.status}`)
+      })
   }
 
   editAvatar(avatar) {
@@ -91,11 +111,12 @@ class Api {
         avatar,
       })
     })
-
+      .then(res => {
+        return res.ok
+          ? res.json()
+          : Promise.reject(`Ошибка: ${res.status}`)
+      })
   }
 }
-
-
-
 
 export default Api

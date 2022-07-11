@@ -39,7 +39,6 @@ class PopupWithForm extends Popup {
 
       this._handleProfileFormSubmit(this._getInputValues());
 
-      // this.close()
     })
   }
 

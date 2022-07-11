@@ -11,6 +11,7 @@ class PopupWithConfirmation extends Popup {
     this._popupRemoveConfirmationButton = this._element.querySelector('.form__button')
       .addEventListener('click', () => {
         this._deleteCard(this._currentCard)
+        this.close()
       })
   }
 
