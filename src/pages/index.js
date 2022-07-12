@@ -17,15 +17,16 @@ import './index.css';
 import Api from '../components/Api.js'
 
 
+
+
 const formValidators = [...document.querySelectorAll('.form')]
+
   .reduce((accum, formElement) => {
 
     const validator = new FormValidator(options, formElement);
     validator.enableValidation();
 
     const formName = formElement.name;
-
-    console.log(formName)
 
     accum[formName] = validator;
 
@@ -49,20 +50,39 @@ const createCard = (data) => {
 }
 
 
+/** 
+ * @description При клике по лайку проверяет была ли уже лайкнута карточка и
+ * если да, выполняет запрос на сервер для добавления лайка
+ * если нет, выполняет запрос на сервер для удаления лайка
+ * @param {object} card - Объект карточки
+ * @param {boolean} isILiked - Лайкнута ли карточка пользователем
+ * @param {string} cardId- Id карточки
+ * 
+*/
+const apiCardsLike = (card, isILiked, cardId) => {
 
-const handleCardsLike = (isILiked, cardId) => {
-
-  if (isILiked) return api.toggleLike(cardId, 'PUT')
-  else return api.toggleLike(cardId, 'DELETE')
+  if (isILiked) {
+    api.toggleLike(cardId, 'PUT')
+      .then(res => card.handleCardLike(res))
+      .catch(err => console.error(err))
+  }
+  else {
+    api.toggleLike(cardId, 'DELETE')
+      .then(res => card.handleCardLike(res))
+      .catch(err => console.error(err))
+  }
 }
 
-
-
+/** 
+ * @description Удаляет элемент карточки
+ * @param {object} currentCard - Объект карточки
+ * 
+*/
 const deleteCard = (currentCard) => {
   const cardId = currentCard.getCardId()
   api.deleteCard(cardId)
     .then(res => {
-      if (res.message = 'Пост удален') currentCard.removeCardElement()
+      currentCard.removeCardElement()
     })
     .catch(err => console.error(err))
 }
@@ -81,10 +101,10 @@ const handleProfileFormSubmit = ({ form__text_type_name: name, form__text_type_a
   api.modifyProfile(name, about)
     .then(data => {
       userInfo.setUserInfo(data)
+      popupEditProfile.close()
     })
     .catch(err => console.error(err))
     .finally(() => {
-      popupEditProfile.close()
       popupEditProfile.switchButtonText()
     })
 };
@@ -102,55 +122,78 @@ const handleAddCardFormSubmit = ({ form__text_type_name: name, form__text_type_a
 
   api.addNewCard(name, link)
     .then(item => {
-      const cardElement = createCard({ item, cardsTemplateSelector, openPopupWithImg, openPopupWithConfirmation, handleCardsLike, userId });
+      const cardElement = createCard({ item, cardsTemplateSelector, openPopupWithImg, openPopupWithConfirmation, apiCardsLike, userId });
       sectionRenderer.prependItem(cardElement)
+      popupAddCard.close()
     })
     .catch(err => console.error(err))
     .finally(() => {
-      popupAddCard.close()
       popupAddCard.switchButtonText()
     })
 }
 
-const handleEditProfile = ({ form__text_type_about: avatar }) => {
+
+/** 
+ * @description Вызывается в момент сабмита формы редактирования,
+ * получает данные из формы, введенные пользователем,
+ * создает экземпляр класса Section,
+ * вызывает метод rendererItems, добавляя новую карточку
+ * @param {object} inputData - Объект с данными из формы, введенные пользователем
+*/
+const handleAvatarFormSubmit = ({ form__text_type_about: avatar }) => {
   popupEditAvatar.switchButtonText()
 
   api.editAvatar(avatar)
     .then(res => {
-      if(res.avatar === avatar) userInfo.editProfileAvatar(avatar)
+      userInfo.editProfileAvatar(avatar)
+      popupEditAvatar.close()
     })
     .catch(err => console.error(err))
     .finally(() => {
       popupEditAvatar.switchButtonText()
-      popupEditAvatar.close()
     })
 }
 
+
+
+/** 
+ * @description Вызывается в нажатия на корзину удаления карточки,
+ * открывает попап подтверждения удаления
+ * @param {object} currentCard - Объект карточки
+*/
 const openPopupWithConfirmation = (currentCard) => {
   popupWithConfirmation.open()
   popupWithConfirmation.setCurrentCard(currentCard)
 }
 
+
+/** 
+ * @description Вызывается в нажатия на карточку,
+ * открывает попап полноэкранного отображения карточки
+ * @param {object} currentCard - Объект карточки
+*/
 const openPopupWithImg = (imageLink, imageText) => {
   popupWithImgObj.open(imageLink, imageText)
 }
 
+
+
+/** 
+ * @description Рендерит страницу при перезагрузке
+ * делает запросы
+ * информации пользователя, карточек
+ * записывает данные в инстанс класса userInfo
+ * рендерит страницу
+ * 
+*/
 const renderPage = () => {
-
-  api.getUserInfo()
-    .then(userData => {
-      const { avatar, _id, name, about } = userData;
-
-      userInfo.setUserInfo({ name, about })
-      userInfo.setUserId(_id)
-      userInfo.editProfileAvatar(avatar)
-
-      api.getInitialCards()
-        .then(cardsData => {
-          sectionRenderer.rendererItems(cardsData, _id)
-        })
-        .catch(err => console.error(err))
-
+  Promise.all([
+    api.getUserInfo(),
+    api.getInitialCards(),
+  ])
+    .then(([{ avatar, _id, name, about }, cardsData]) => {
+      userInfo.setUserInfo({ name, about, _id, avatar })
+      sectionRenderer.rendererItems(cardsData, _id)
     })
     .catch(err => console.error(err))
 }
@@ -164,19 +207,22 @@ const popupAddCard = new PopupWithForm('.popup_target_add-card', handleAddCardFo
 popupAddCard.setEventListeners()
 const popupWithConfirmation = new PopupWithConfirmation('.popup_target_remove-confirmation', deleteCard);
 popupWithConfirmation.setEventListeners()
-const popupEditAvatar = new PopupWithForm('.popup_target_edit-avatar', handleEditProfile);
+const popupEditAvatar = new PopupWithForm('.popup_target_edit-avatar', handleAvatarFormSubmit);
 popupEditAvatar.setEventListeners()
 
 const userInfo = new UserInfo('.profile-info__name', '.profile-info__about', '.profile-info__img');
 
 const api = new Api({
   id: 'https://mesto.nomoreparties.co/v1/cohort-45',
-  token: '4f28713c-cb2d-4ebc-a909-b129b423af46',
+  headers: {
+    authorization: '4f28713c-cb2d-4ebc-a909-b129b423af46',
+    'Content-Type': 'application/json',
+  },
 });
 
 const sectionRenderer = new Section({
   renderer: (item, userId) => {
-    const cardElement = createCard({ item, cardsTemplateSelector, openPopupWithImg, openPopupWithConfirmation, handleCardsLike, userId });
+    const cardElement = createCard({ item, cardsTemplateSelector, openPopupWithImg, openPopupWithConfirmation, apiCardsLike, userId });
 
     sectionRenderer.addItem(cardElement)
   },

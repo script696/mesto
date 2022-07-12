@@ -12,11 +12,11 @@ class FormValidator {
 
     this._inputList = [...this._formElement.querySelectorAll(this._inputSelector)];
     this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
+
   }
 
   enableValidation() {
 
-    this._formElement.addEventListener('submit', e => e.preventDefault());
     this._setEventListeners();
 
   };
@@ -24,11 +24,9 @@ class FormValidator {
   _setEventListeners() {
 
     this.toggleButtonState();
-
     this._inputList.forEach(inputElement => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-
         this.toggleButtonState();
       });
     });

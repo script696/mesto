@@ -17,13 +17,12 @@ class UserInfo {
     return this._profileData
   }
 
-  setUserInfo({ name, about }) {
+  setUserInfo({ name, about, _id, avatar }) {
     this._profileNameElement.textContent = name;
     this._profileAboutElement.textContent = about;
-  }
+    this._userId = _id;
+    this._profileAvatarElement.src = avatar;
 
-  setUserId(userId) {
-    this._userId = userId;
   }
 
   getUserId() {

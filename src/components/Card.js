@@ -4,8 +4,7 @@ class Card {
     cardsTemplateSelector,
     openPopupWithImg,
     openPopupWithConfirmation,
-    handleCardsLike,
-    deleteCard,
+    apiCardsLike,
     userId,
   }) {
     this._cardLink = item.link;
@@ -14,7 +13,7 @@ class Card {
     this._cardSelector = cardsTemplateSelector;
 
     this._handleCardClick = openPopupWithImg;
-    this._handleCardsLike = handleCardsLike;
+    this._apiCardsLike = apiCardsLike;
     this._confirmCardRemovement = openPopupWithConfirmation;
 
     this._userId = userId;
@@ -75,20 +74,15 @@ class Card {
   }
 
   _fullfilledLikeLHeart() {
-    this._isLiked
-      ? this._likeHeart.classList.add('card__logo-heart_style_filled')
-      : this._likeHeart.classList.remove('card__logo-heart_style_filled')
+    this._likeHeart.classList.toggle('card__logo-heart_style_filled', this._isLiked)
 
     this._isLiked = !this._isLiked
   }
 
-  _handleCardLike() {
-    this._handleCardsLike(this._isLiked, this._cardId)
-      .then(res => {
-        this._cardLikes = res.likes
-        this._countLikes()
-        this._fullfilledLikeLHeart()
-      })
+  handleCardLike(res) {
+    this._cardLikes = res.likes
+    this._countLikes()
+    this._fullfilledLikeLHeart()
   }
 
   removeCardElement() {
@@ -105,7 +99,7 @@ class Card {
 
     this._element.querySelector('.card__logo-heart')
       .addEventListener('click', () => {
-        this._handleCardLike()
+        this._apiCardsLike(this, this._isLiked, this._cardId)
       });
 
     this._element.querySelector('.card__garbage')

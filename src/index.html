@@ -78,8 +78,8 @@
     <div class="popup popup_target_remove-confirmation">
       <div class="popup__body">
         <h2 class="popup__title">Вы уверены?</h2>
-        <form class="form form_target_avatar" name="avatar-add" novalidate>
-          <button type="button" class="form__button">Да</button>
+        <form class="form form_target_confirmation" name="card-remove" novalidate>
+          <button type="submit" class="form__button">Да</button>
         </form>>
         <button type="button" class="popup__close-button"></button>
       </div>
@@ -91,7 +91,7 @@
           <label class="form__field">
             <input type="url" placeholder="Ссылка на аватар" class="form__text form__text_position_bottom"
               name="form__text_type_about" id="avatar-input" required>
-            <span class="form__text-error link-input-error"></span>
+            <span class="form__text-error avatar-input-error"></span>
           </label>
           <button type="submit" class="form__button">Сохранить</button>
         </form>

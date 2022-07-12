@@ -1,121 +1,81 @@
 class Api {
-  constructor({ id, token }) {
+  constructor({ id, headers }) {
     this._id = id;
-    this._token = token;
+    this._headers = headers;
+  }
+
+  _getResponseData(res) {
+    if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
   }
 
   getUserInfo() {
     return fetch(`${this._id}/users/me`, {
-      headers: {
-        authorization: this._token,
-      }
+      headers: this._headers,
     })
-      .then(res => {
-        return res.ok
-          ? res.json()
-          : Promise.reject(`Ошибка: ${res.status}`)
-      })
+      .then(res => this._getResponseData(res))
   }
 
   getInitialCards() {
     return fetch(`${this._id}/cards`, {
-      headers: {
-        authorization: this._token,
-      }
+      headers: this._headers,
     })
-      .then(res => {
-        return res.ok
-          ? res.json()
-          : Promise.reject(`Ошибка: ${res.status}`)
-      })
+      .then(res => this._getResponseData(res))
   }
 
   modifyProfile(name, about) {
     return fetch(`${this._id}/users/me`, {
       method: 'PATCH',
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json',
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name,
         about,
       })
     })
-      .then(res => {
-        return res.ok
-          ? res.json()
-          : Promise.reject(`Ошибка: ${res.status}`)
-      })
+      .then(res => this._getResponseData(res))
   }
 
 
   addNewCard(name, link) {
     return fetch(`${this._id}/cards`, {
       method: 'POST',
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json',
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name,
         link,
       })
     })
-      .then(res => {
-        return res.ok
-          ? res.json()
-          : Promise.reject(`Ошибка: ${res.status}`)
-      })
+      .then(res => this._getResponseData(res))
   }
 
   deleteCard(cardId) {
     return fetch(`${this._id}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json',
-      }
+      headers: this._headers,
     }
     )
-      .then(res => {
-        return res.ok
-          ? res.json()
-          : Promise.reject(`Ошибка: ${res.status}`)
-      })
+      .then(res => this._getResponseData(res))
   }
 
   toggleLike(cardId, method) {
     return fetch(`${this._id}/cards/${cardId}/likes`, {
       method: method,
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json',
-      }
+      headers: this._headers,
     })
-      .then(res => {
-        return res.ok
-          ? res.json()
-          : Promise.reject(`Ошибка: ${res.status}`)
-      })
+      .then(res => this._getResponseData(res))
   }
 
   editAvatar(avatar) {
     return fetch(`${this._id}/users/me/avatar`, {
       method: 'PATCH',
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json',
-      },
+      headers: this._headers,
       body: JSON.stringify({
         avatar,
       })
     })
-      .then(res => {
-        return res.ok
-          ? res.json()
-          : Promise.reject(`Ошибка: ${res.status}`)
-      })
+      .then(res => this._getResponseData(res))
   }
 }
 
